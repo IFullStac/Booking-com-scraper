@@ -34,8 +34,8 @@ const getBookings = (req, res) => {
         const browser = await puppeteer.launch({ headless: false})
         const page = await browser.newPage()
         await page.setViewport({ width: 1000, height: 1600 });
-        numberOfNights = 5
-        numberOfPeople = 5
+        numberOfNights = 2
+        numberOfPeople = 2
 
         for (let i = 1; i < numberOfNights; i++ ){ 
             for (let j = 1; j < numberOfPeople ; j++ ) {
