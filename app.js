@@ -4,7 +4,7 @@ const cors = require('cors')
 app.use(cors())
 
 const bookings = require('./Routes/bookings-routes')
-
+const port = process.env.PORT || 8000
 // static asstets
 app.use(express.static('./public'))
 
@@ -16,6 +16,6 @@ app.use(express.json())
 
 app.use('/api/bookings', bookings)
 
-app.listen(8000, () => {
+app.listen(port, () => {
     console.log('Server is listening on port 8000....')
   })

@@ -4,6 +4,21 @@ const puppeteer = require('puppeteer')
 const getFullMoonDates = (req, res) => {
     res.status(200).json({success: true, data: fullMoonDates })
 }
+// naujos datos sukurimui
+const createDate = (req, res) => {
+    const { year } = req.body
+    // console.log(req.body)
+    if (!year) {
+      return res
+        .status(400)
+        .json({ success: false, msg: 'please provide date value' })
+    }
+    res.status(201).send({ success: true, laikas: year })
+  }
+const deleteDate = (req, res) => {
+    res.status(200).json({success: true, funkcija : 'delete' })
+}
+
 
 const getBookings = (req, res) => {
     allHotels = []
@@ -14,8 +29,6 @@ const getBookings = (req, res) => {
         .status(404)
         .json({ success: false, msg: `no date with id ${id}` })
     }
-    
-    console.log(dates)
     async function start() {
         allHotels = []
         const browser = await puppeteer.launch({ headless: false})
@@ -90,17 +103,7 @@ const getBookings = (req, res) => {
     start()
 
 }
-// naujos datos sukurimui
-const createDate = (req, res) => {
-    const { year } = req.body
-    // console.log(req.body)
-    if (!year) {
-      return res
-        .status(400)
-        .json({ success: false, msg: 'please provide date value' })
-    }
-    res.status(201).send({ success: true, laikas: year })
-  }
+
 
 module.exports = {getFullMoonDates, getBookings, createDate } 
 
