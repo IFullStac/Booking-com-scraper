@@ -31,7 +31,7 @@ const getBookings = (req, res) => {
     }
     async function start() {
         allHotels = []
-        const browser = await puppeteer.launch({ headless: false})
+        const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
         const page = await browser.newPage()
         await page.setViewport({ width: 1000, height: 1600 });
         numberOfNights = 2
