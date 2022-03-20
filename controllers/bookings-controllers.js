@@ -35,8 +35,8 @@ const getBookings = (req, res) => {
         const page = await browser.newPage()
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')
         //await page.setViewport({ width: 1000, height: 1600 });
-        numberOfNights = 5
-        numberOfPeople = 5
+        numberOfNights = 3
+        numberOfPeople = 2
 
         for (let i = 1; i < numberOfNights; i++ ){ 
             for (let j = 1; j < numberOfPeople ; j++ ) {
