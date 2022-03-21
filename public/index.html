@@ -2,39 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Scrapping Booking.com</title>
+    <title>Getting Data from Backend to Frontend</title>
     <link rel="stylesheet" href="./normalize.css" />
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <nav>
       <div class="nav-center">
-        <h3>Loren, WELCOME to Haad Rin Bookings</h3>
+        <h3>WELCOME to Haad Rin Bookings</h3>
       </div>
     </nav>
     <main>
-      <section>
-        <form>
-          <h4>Create new date</h4>
-          <div class="form-row">
-            <label for="start">Choose date:</label>
-            <input
-              type="date"
-              id="start"
-              name="trip-start"
-              class="form-input"
-              autocomplete="false"
-            />
-            <small class="form-alert"></small>
-          </div>
-          <button type="submit" class="block submit-btn">submit</button>
-        </form>
-      </section> 
       <div class="firstTimeInfo">
          <ul>
            <li>* The table shows maximum 25 properties per search even if there are more left. (1st page only) </li>
            <li>* It is possible to get all the properties showing but it would take more work :)</li>
-           <li>* Loading takes around 45-50s with a good internet connection</li>
+           <li>* It's easy to add more dates to the list</li>
+           <li>* It's possible to make so that you can select the dates yourself (extra work required :D )</li>
+           <li>* All bookings start on a selected date. (Maybe it would be wise to rethink that) </li>
            <li>* Click on any price to see more info</li>
            <li><strong>* Click on any price second time to refresh the table</strong></li>
            <li>* Click on any price to see more info</li>
@@ -42,10 +27,7 @@
         </ul> 
       </div>
       <div class="datesDisplay"> </div>
-      <div > <p class="loading-text">Loading...</p></div>
-      <div id="loadPROG-Types" class="loading-text>"> </div>
-      <div id="loadPROG-Nights" class="loading-text>"> </div>
-      <div class="errorDiv"></div>
+      <div><p class="loading-text">Loading... Takes around 45-50s with a good internet connection</p></div>
       <div id="demo" class="demo"></div>
       <div class="moreInfo" id="moreInfo" ></div>
       <div class="result"></div>
@@ -62,3 +44,23 @@
 
 </body>
 </html>
+
+<!-- <main> input form if ever need to add that functionality
+      <section>
+        <form>
+          <h4>Select available date or create a new one</h4>
+          <div class="form-row">
+            <label for="start">Choose date:</label>
+            <input
+              type="date"
+              id="start"
+              name="trip-start"
+              class="form-input"
+              autocomplete="false"
+            />
+            <small class="form-alert"></small>
+          </div>
+          <button type="submit" class="block submit-btn">submit</button>
+        </form>
+      </section>  
+    </main> -->

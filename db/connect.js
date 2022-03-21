@@ -1,7 +1,1 @@
-const  mongoose  = require("mongoose")
-
-const connectDB = (url) => {
-   return mongoose.connect(url)
-}
-
-module.exports = connectDB
+const connectionString = 'mongodb+srv://IFullStac:<password>@cluster0.t0fca.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'

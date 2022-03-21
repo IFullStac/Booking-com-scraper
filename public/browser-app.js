@@ -6,72 +6,51 @@ const errorDiv = document.querySelector('.errorDiv')
 const result = document.querySelector('.result')
 
 const moreInfo = document.getElementById('moreInfo')
-// display "Loading.."
+
 const loadingDOM = document.querySelector('.loading-text')
-// display room types and days searched to the user while fetching the data
-const loadPROG_Types = document.getElementById('loadPROG-Types')
-const loadPROG_Nights = document.getElementById('loadPROG-Nights')
 
 // function that gets the scraping data and represents it in the DOM
 const  myFunction = async (id) => {
- 
   loadingDOM.style.visibility = 'visible'
-  const HotelsArray = []
-
-  let mainHeaders = ['.N.', '.P.', 'R type', 'H left',1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
-  let mainTable = document.createElement('table')
-  let mainHeaderRow = document.createElement('tr')
-  // ** date cell **
-  let mainDateRow = document.createElement('tr')
-  let fmDate = document.createElement('th')
-  fmDate.colSpan ='29'
-  fmDate.style.background = '#f763e3'
-  fmDate.style.padding = "10px"
-  fmDate.style.fontSize = "1.3rem"
-
-  mainDateRow.appendChild(fmDate)
-  mainTable.appendChild(mainDateRow)
-  // *** end of date cell ******
-  mainHeaders.map(header => {
-      let th = document.createElement('th')
-      th.innerText = header
-      mainHeaderRow.appendChild(th)
-  })
-  mainTable.appendChild(mainHeaderRow)
-
-  try {   
-    for (let i=1; i<5; i++) {
-      for (let p = 1; p < 2 ; p++ ) {
-        const { data } = await axios.get(`/api/bookings/${id}/${i}/${p}`)
-        HotelsArray.push(data.data)
-        // loadPROG_Types.innerHTML = `Room types searched: ${p}`
-      }
-      loadPROG_Nights.innerHTML = `<div> Days searched ${i}</div>`
-    }
-    const flatHotelsArray = HotelsArray.flat()
-      
-    if(HotelsArray){
+  try {
+    const { data } = await axios.get(`/api/bookings/${id}`)
+    if(data){
       loadingDOM.style.visibility = 'hidden'
-    } else if (!HotelsArray) {
-       errorDiv.innerHTML = `<div class="alertalert-danger">Can't Fetch Data</div>`
-       return
-    } 
-      
-    
+    }
+    let mainHeaders = ['.N.', '.P.', 'R type', 'H left',1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+    let mainTable = document.createElement('table')
+    let mainHeaderRow = document.createElement('tr')
+    // ** date cell **
+    let mainDateRow = document.createElement('tr')
+    let fmDate = document.createElement('th')
+    fmDate.colSpan ='29'
+    fmDate.style.background = '#f763e3'
+    fmDate.style.padding = "10px"
+    fmDate.style.fontSize = "1.3rem"
+
+    mainDateRow.appendChild(fmDate)
+    mainTable.appendChild(mainDateRow)
+    // *** end of date cell ******
+    mainHeaders.map(header => {
+        let th = document.createElement('th')
+        th.innerText = header
+        mainHeaderRow.appendChild(th)
+    })
+    mainTable.appendChild(mainHeaderRow)
+
     function createTable() {
       moreInfo.innerHTML = '<h2>Hotel name </h2> <h3>Rating</h3>'
       mainTable.innerHTML = ''
-      fmDate.innerHTML = "OUT! - is in pink.  Date: "
+      fmDate.innerHTML = "OUT! - is in pink.  Full Moon Date: "
       mainTable.appendChild(mainDateRow)
       mainTable.appendChild(mainHeaderRow)
       result.innerHTML = ''
-
-      flatHotelsArray.map(searches => {
+      data.data.map(searches => {
       const mainTableRow = document.createElement('tr')
       searches.map(hotel => {
 
         if(hotel.year) {
-          fmDate.innerHTML = `OUT! - is in pink.  Date:  ${hotel.year} - ${hotel.month} - ${hotel.day}`
+          fmDate.innerHTML = `OUT! - is in pink.  Full Moon Date:  ${hotel.year} - ${hotel.month} - ${hotel.day}`
       }
         const mainTableDataCell = document.createElement('td')
         mainTableDataCell.innerText = `${hotel.price}`
@@ -84,7 +63,7 @@ const  myFunction = async (id) => {
                 result.innerHTML = ''
                 
                 moreInfo.innerHTML =  ` <h2>Hotel name: ${hotel.title} </h2> <h3>Rating: ${hotel.rating}</h3>`
-                flatHotelsArray.map((arrays)=> {
+                data.data.map((arrays)=> {
                     const mainTableRow = document.createElement('tr')
 
                     arrays.map(el => {
@@ -120,7 +99,6 @@ const  myFunction = async (id) => {
     })
     result.appendChild(mainTable)
     }
-
     createTable()
 
   } catch (error) {
@@ -131,72 +109,37 @@ const  myFunction = async (id) => {
 
 
 // getting full moon dates from a file and adding to DOM element datesDisplay
-
 const fetchDates = async () => {
   try {
-    const  { data } = await axios.get('/api/dates')
-    // console.log(data)
-    const dataAr = data.data
-    const arLen = Number(dataAr.length)
-    if(arLen  < 1){
-      datesDisplay.innerHTML = `There are no dates to select. Please create a new date`
-    }
+    const { data } = await axios.get('/api/bookings')
     const datos = data.data.map((dates) => {
-      const {_id: dateID} = dates
-      return (`<div class="date-container">
-       <button  class="dateBtn" id="${dates._id}" onclick="myFunction(this.id)" > ${dates.year}-${dates.month}-${dates.day}  </button> <button class="delete-btn"  type="button" data_id="${dateID}"  > X </button> </div> `)
+      return `<button id="${dates.id}" onclick="myFunction(this.id)" class="dateBtn" > ${dates.year}-${dates.month}-${dates.day}</button>`
     })
-    datesDisplay.innerHTML = datos.join('') 
-    addListener()   
+    datesDisplay.innerHTML = datos.join('')    
   } catch (error) {
     datesDisplay.innerHTML = `<div class="alertalert-danger">Can't Fetch Data</div>`
   }
 }
-
 fetchDates()
 
+  // submit form
 
-// submit form -> createDate
-const btn = document.querySelector('.submit-btn')
-const input = document.querySelector('.form-input')
-const formAlert = document.querySelector('.form-alert')
-
-btn.addEventListener('click', async (e) => {
-  e.preventDefault()
-  const dateValue = input.value
-  const dateArray = dateValue.split("-")
-  const year = dateArray[0]
-  const month = dateArray[1]
-  const day = dateArray[2]
-  try {
-    await axios.post('/api/dates', {year, month, day})
-    fetchDates()
-  } catch (error) {
-    formAlert.textContent = error.response.data.msg
-  }
-  input.value = ''
-})
-//*************************************************** */
-
-const addListener = async () => {
-  // await fetchDates()
-  const delete_btn = document.querySelectorAll('.delete-btn')
-  const buttons = [...delete_btn]
-  buttons.map(btn => {
-    btn.addEventListener('click', async (e) => {
-      const id = e.target.attributes.data_id.value
-      
-        try {
-          await axios.delete(`/api/dates/${id}`)
-          fetchDates()
-        } catch (error) {
-          console.log(error)
-        }
-    })    
-  })
-}
-
-
-
-
-
+// const btn = document.querySelector('.submit-btn')
+// const input = document.querySelector('.form-input')
+// const formAlert = document.querySelector('.form-alert')
+//   btn.addEventListener('click', async (e) => {
+//     e.preventDefault()
+//     const dateValue = input.value
+//     try {
+//       const { data } = await axios.post('/api/bookings', {year: dateValue })
+//       const newDate = document.createElement('button')
+//       newDate.className = "newDatesBtn"
+//       newDate.innerText = data.laikas
+//       datesDisplay.appendChild(newDate)
+//     } catch (error) {
+//       // console.log(error.response)
+//       formAlert.textContent = error.response.data.msg
+//     }
+    
+//     input.value = ''
+//   })
