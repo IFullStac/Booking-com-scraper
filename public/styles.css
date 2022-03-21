@@ -153,10 +153,12 @@ a {
 
 form {
     width: 100%;
+    max-width: 600px;
     background: var(--white);
     border-radius: var(--borderRadius);
     box-shadow: var(--shadow-2);
     padding: 2rem 2.5rem;
+    margin: 1rem auto;
 }
 label {
     display: block;
@@ -175,7 +177,7 @@ textarea {
     border: 1px solid var(--grey-300);
 }
 .form-row {
-    margin-bottom: 1rem;
+    margin: 1rem auto;
 }
 textarea {
     border: #2c7cd8 solid 3px;
@@ -314,12 +316,6 @@ button.block {
     animation: spinner 0.6s linear infinite;
 }
 
-form {
-    /* width: 90vw; */
-    max-width: 600px;
-    margin: 0 auto;
-    /* margin-top: 5rem; */
-}
 nav {
     height: 4rem;
     background: var(--primary-500);
@@ -350,23 +346,43 @@ nav {
 }
 
 .datesDisplay {
+    /* border: #ac2e2e solid 2px; */
     padding: 0.5rem;
-    display: block;
+    display: inline-block;
     max-width: 90vw;
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
 }
-.newDatesBtn,
+.date-container {
+    background-color: #c6bffd;
+    /* border: #23ce48 solid 2px; */
+    display: inline-flex;
+    justify-content: space-around;
+    margin: 0.5rem 0.5rem;
+    border-radius: 10px;
+}
 .dateBtn {
-    background-color: #c55bd3;
+    background-color: #f567e2;
     padding: 0.5rem 0.3rem;
-    margin: 0.3rem 0.4rem;
-    width: 134px;
+    width: 135px;
 }
 
-.newDatesBtn {
-    background-color: #2c7cd8;
+.delete-btn {
+    background-color: var(--primary-500);
+    padding: 0.5rem 0.8rem;
 }
+
+.dateBtn,
+.delete-btn {
+    border-radius: 10px;
+    margin: 0.3rem 0.6rem;
+}
+
+.dateBtn:hover {
+    cursor: pointer;
+    background-color: #f5aaeb;
+}
+
 h5 + h5 {
     margin-left: 1rem;
 }
