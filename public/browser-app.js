@@ -18,13 +18,13 @@ const  myFunction = async (id) => {
   loadingDOM.style.visibility = 'visible'
   const HotelsArray = []
 
-  let mainHeaders = ['.N.', '.P.', 'R type', 'H left',1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+  let mainHeaders = ['.N.', '.P.', 'R type', 'H left','Link',1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
   let mainTable = document.createElement('table')
   let mainHeaderRow = document.createElement('tr')
   // ** date cell **
   let mainDateRow = document.createElement('tr')
   let fmDate = document.createElement('th')
-  fmDate.colSpan ='29'
+  fmDate.colSpan ='30'
   fmDate.style.background = '#f763e3'
   fmDate.style.padding = "10px"
   fmDate.style.fontSize = "1.3rem"
@@ -40,34 +40,35 @@ const  myFunction = async (id) => {
   mainTable.appendChild(mainHeaderRow)
 
   try {   
-    for (let i=1; i<5; i++) {
-      for (let p = 1; p < 2 ; p++ ) {
+    for (let i=1; i<5; i++) {  // nights
+      for (let p = 1; p < 3 ; p++ ) {  // room types 1 - any, 2 - private
         const { data } = await axios.get(`/api/bookings/${id}/${i}/${p}`)
         HotelsArray.push(data.data)
-        // loadPROG_Types.innerHTML = `Room types searched: ${p}`
+        loadPROG_Types.innerHTML = `Room types searched: ${p}`
       }
       loadPROG_Nights.innerHTML = `<div> Days searched ${i}</div>`
     }
     const flatHotelsArray = HotelsArray.flat()
-      
+    // console.log(flatHotelsArray)  
     if(HotelsArray){
       loadingDOM.style.visibility = 'hidden'
     } else if (!HotelsArray) {
-       errorDiv.innerHTML = `<div class="alertalert-danger">Can't Fetch Data</div>`
+       errorDiv.innerHTML = `<div class="alertalert-danger">Can't Fetch Data, HotelsArray is empty </div>`
        return
     } 
-      
-    
+    loadPROG_Types.innerHTML =  ''
+    loadPROG_Nights.innerHTML = ''
     function createTable() {
-      moreInfo.innerHTML = '<h2>Hotel name </h2> <h3>Rating</h3>'
+      moreInfo.innerHTML = '<h2>Hotel name </h2> <h3>Rating</h3> <h3>Select hotel to see the link</h3>'
       mainTable.innerHTML = ''
       fmDate.innerHTML = "OUT! - is in pink.  Date: "
       mainTable.appendChild(mainDateRow)
       mainTable.appendChild(mainHeaderRow)
       result.innerHTML = ''
-
+      // ******* mapping ******
       flatHotelsArray.map(searches => {
       const mainTableRow = document.createElement('tr')
+      // ******* mapping ******
       searches.map(hotel => {
 
         if(hotel.year) {
@@ -75,6 +76,9 @@ const  myFunction = async (id) => {
       }
         const mainTableDataCell = document.createElement('td')
         mainTableDataCell.innerText = `${hotel.price}`
+        if(hotel.searchLink){
+          mainTableDataCell.innerHTML = `<a target="_blank" href="${hotel.searchLink}">Link</a>`
+        }
 
         if(hotel.title) {
             mainTableDataCell.addEventListener("click", function chooseHotel() {
@@ -83,25 +87,30 @@ const  myFunction = async (id) => {
                 mainTable.appendChild(mainHeaderRow)
                 result.innerHTML = ''
                 
-                moreInfo.innerHTML =  ` <h2>Hotel name: ${hotel.title} </h2> <h3>Rating: ${hotel.rating}</h3>`
+                moreInfo.innerHTML =  ` <h2>Hotel name: ${hotel.title} </h2> <h3>Rating: ${hotel.rating}</h3><h3><a class"hotel_Link" target="_blank" href="${hotel.link}">Hotel's link</a></h3>`
+                // ******* mapping ******
                 flatHotelsArray.map((arrays)=> {
                     const mainTableRow = document.createElement('tr')
-
+                    // ******* mapping ******
                     arrays.map(el => {
-                        // if(el.year){
-
-                        // }
+                      
                         const mainTableDataCell = document.createElement('td')
                         mainTableDataCell.innerText = `${el.price}`
+
+                        if(el.searchLink){
+                          mainTableDataCell.innerHTML = `<a target="_blank" href="${el.searchLink}">Link</a>`
+                        }
                         if(el.title === hotel.title){
                             mainTableDataCell.style.backgroundColor = '#ccf176';
                         }      
                         if(el.title && el.title.includes('OUT!')){
-                            mainTableDataCell.style.backgroundColor = '#f763e3';  
+                            mainTableDataCell.style.backgroundColor = '#f763e3'; 
+                            mainTableDataCell.innerHTML = `<a target="_blank" href="${el.link}">${el.price}</a>` 
                         } 
                         if(el.title) {
                             mainTableDataCell.addEventListener("click", createTable)
                         }
+
                         mainTableRow.appendChild(mainTableDataCell) 
                     })
                     mainTable.appendChild(mainTableRow)
@@ -111,7 +120,8 @@ const  myFunction = async (id) => {
             })   
         }
         if(hotel.title && hotel.title.includes('OUT!')){
-            mainTableDataCell.style.backgroundColor = '#f763e3';  
+            mainTableDataCell.style.backgroundColor = '#f763e3';
+            mainTableDataCell.innerHTML = `<a target="_blank" href="${hotel.link}">${hotel.price}</a>`
         } 
 
         mainTableRow.appendChild(mainTableDataCell)       
