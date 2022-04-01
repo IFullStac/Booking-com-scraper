@@ -87,7 +87,26 @@ body {
 main {
     margin: auto;
     text-align: center;
+    /* height: ; */
 }
+footer {
+    height: 4rem;
+    background: var(--primary-500);
+    position: fixed;
+    bottom: 0;
+    margin: 0 auto;
+    align-items: center;
+    width: 100%;
+}
+.spacer {
+    height: 4rem;
+}
+h3.footer {
+    padding: 1rem 0;
+    margin: 0 auto;
+    color: var(--white);
+}
+
 .loading-text {
     visibility: hidden;
     margin: 0 auto;
@@ -364,13 +383,29 @@ nav {
 }
 
 .datesDisplay {
-    /* border: #ac2e2e solid 2px; */
     padding: 0.5rem;
     display: inline-block;
     max-width: 90vw;
     max-width: 1000px;
     margin: auto;
 }
+.loadedDatesDisplay,
+.hotelDisplay {
+    padding: 0.5rem;
+    /* display: inline-block; */
+    max-width: 1100px;
+    margin: auto;
+}
+
+.hotel-container {
+    background-color: #f567e2;
+    padding: 0.3rem 1rem;
+    border-radius: 10px;
+    margin: 0.3rem;
+    display: inline-flex;
+    justify-content: space-between;
+}
+.new_date_container,
 .date-container {
     background-color: #c6bffd;
     /* border: #23ce48 solid 2px; */
@@ -379,6 +414,10 @@ nav {
     margin: 0.5rem 0.5rem;
     border-radius: 10px;
 }
+.new_date_container {
+    padding: 1rem 2.5rem;
+}
+
 .dateBtn {
     background-color: #f567e2;
     padding: 0.5rem 0.3rem;
@@ -395,7 +434,8 @@ nav {
     border-radius: 10px;
     margin: 0.3rem 0.6rem;
 }
-
+.new_date_container:hover,
+.hotel-container:hover,
 .dateBtn:hover {
     cursor: pointer;
     background-color: #f5aaeb;

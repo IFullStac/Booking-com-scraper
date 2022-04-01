@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer")
+const { Temporal } = require("@js-temporal/polyfill")
 
 const start = async (dates, nights, private) => {
     allHotels = []
@@ -19,25 +20,17 @@ const start = async (dates, nights, private) => {
     )
     // await page.setViewport({ width: 1000, height: 1600 }) // use these settings in development mode, when needed to inspect the page
     for (let j = 1; j < people + 1; j++) {
-        let checkOutYear = dates.year
-        let checkOutMonth = dates.month
-        let checkOutDay = dates.day + Number(nights)
-        if ((checkOutMonth == 01, 03, 05, 07, 08, 10 && checkOutDay > 31)) {
-            checkOutMonth = checkOutMonth + 1
-            checkOutDay = checkOutDay - 31
-        } else if ((checkOutMonth == 04, 06, 09, 11 && checkOutDay > 30)) {
-            checkOutMonth = checkOutMonth + 1
-            checkOutDay = checkOutDay - 30
-        } else if (checkOutMonth == 02 && checkOutDay > 28) {
-            checkOutMonth = checkOutMonth + 1
-            checkOutDay = checkOutDay - 28
-        } else if (checkOutMonth == 12 && checkOutDay > 31) {
-            checkOutYear = checkOutYear + 1
-            checkOutMonth = 01
-            checkOutDay = checkOutDay - 31
-        }
+        const checkInDateTemp = Temporal.PlainDate.from({
+            year: dates.year,
+            month: dates.month,
+            day: dates.day,
+        })
+        const checkInDate = checkInDateTemp.toString()
+        const checkOutDate = checkInDateTemp
+            .add({ days: Number(nights) })
+            .toString()
 
-        url = `https://www.booking.com/searchresults.html?ss=Haad+Rin&ssne=Haad+Rin&ssne_untouched=Haad+Rin&label=gen173nr-1FCAEoggI46AdIM1gEaIgBiAEBmAExuAEXyAEM2AEB6AEB-AECiAIBqAIDuAKMu-ORBsACAdICJGI0NmFkOTc0LWQ0MzEtNDM2Yi04MzBmLWE0NmJjOTQ2ZmQyZtgCBeACAQ&sid=d4e0e21c8c8f2fed3e94446ddf676a26&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&dest_id=900050772&dest_type=city&checkin=${dates.year}-${dates.month}-${dates.day}&checkout=${dates.year}-${dates.month}-${checkOutDay}&group_adults=${j}&no_rooms=1&group_children=0&sb_travel_purpose=leisure&order=price&selected_currency=THB${privateQuery}`
+        url = `https://www.booking.com/searchresults.html?ss=Haad+Rin&ssne=Haad+Rin&ssne_untouched=Haad+Rin&label=gen173nr-1FCAEoggI46AdIM1gEaIgBiAEBmAExuAEXyAEM2AEB6AEB-AECiAIBqAIDuAKMu-ORBsACAdICJGI0NmFkOTc0LWQ0MzEtNDM2Yi04MzBmLWE0NmJjOTQ2ZmQyZtgCBeACAQ&sid=d4e0e21c8c8f2fed3e94446ddf676a26&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&dest_id=900050772&dest_type=city&checkin=${checkInDate}&checkout=${checkOutDate}&group_adults=${j}&no_rooms=1&group_children=0&sb_travel_purpose=leisure&order=price&selected_currency=THB${privateQuery}`
 
         await page.goto(url)
         const propLeft = await page.evaluate(() =>

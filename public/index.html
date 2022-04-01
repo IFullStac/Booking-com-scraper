@@ -1,53 +1,58 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Scraping Booking</title>
-    <link rel="stylesheet" href="./normalize.css" />
-    <link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-  <nav>
-      <div class="nav-center">
-        <h3>Loren, WELCOME to Haad Rin Bookings</h3>
-      </div>
-    </nav>
-    <main>
-      <section>
-        <form>
-          <h4>Create new date</h4>
-          <div class="form-row">
-            <label for="start">Choose date:</label>
-            <input
-              type="date"
-              id="start"
-              name="trip-start"
-              class="form-input"
-              autocomplete="false"
-            />
-            <small class="form-alert"></small>
-          </div>
-          <button type="submit" class="block submit-btn">submit</button>
-        </form>
-      </section> 
-      <div class="datesDisplay"> </div>
-      <div > <p class="loading-text">Loading...</p></div>
-      <div id="loadPROG-Types" class="loading-text>"> </div>
-      <div id="loadPROG-Nights" class="loading-text>"> </div>
-      <div class="errorDiv"></div>
-      <div id="demo" class="demo"></div>
-      <div class="moreInfo" id="moreInfo" ></div>
-      <div class="result"></div>
+    <head>
+        <meta charset="utf-8" />
+        <title>Scraping Booking</title>
+        <link rel="stylesheet" href="./normalize.css" />
+        <link rel="stylesheet" href="./styles.css" />
+        <link rel="shortcut icon" href="#" />
+    </head>
+    <body>
+        <nav>
+            <div class="nav-center">
+                <h3>Loren, WELCOME to Haad Rin Bookings</h3>
+            </div>
+        </nav>
+        <main>
+            <section>
+                <form>
+                    <h4>Create new date</h4>
+                    <div class="form-row">
+                        <label for="start">Choose date:</label>
+                        <input
+                            type="date"
+                            id="start"
+                            name="trip-start"
+                            class="form-input"
+                            autocomplete="false"
+                        />
+                        <small class="form-alert"></small>
+                    </div>
+                    <button type="submit" class="block submit-btn">
+                        submit
+                    </button>
+                </form>
+            </section>
+            <div class="datesDisplay"></div>
+            <div><p class="loading-text">Loading...</p></div>
+            <div id="loadPROG-Types" class="loading-text>"></div>
+            <div id="loadPROG-Nights" class="loading-text>"></div>
+            <div class="errorDiv"></div>
+            <div id="demo" class="demo"></div>
+            <div class="loadedDatesDisplay"></div>
+            <div class="moreInfo" id="moreInfo"></div>
+            <div class="result"></div>
+            <div class="hotelDisplay"></div>
+            <div class="spacer"></div>
+        </main>
+        <footer><h3 class="footer">2022</h3></footer>
 
-    </main>
-
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
-      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="./browser-app.js"></script>
-
-</body>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+            integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script src="./browser-app.js"></script>
+    </body>
 </html>
