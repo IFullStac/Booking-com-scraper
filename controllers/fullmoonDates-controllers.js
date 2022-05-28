@@ -1,13 +1,11 @@
 const Dates = require('../models/dates')
+const asyncWrapper = require('../middleware/async')
 
-const getFullMoonDates = async (req, res) => {
-    try {
-        const dates = await Dates.find({})
-        res.status(200).json({success: true, data: dates })
-    } catch (error) {
-        res.status(500).json({message: error})
-    }
+const getFullMoonDates = asyncWrapper( async (req, res) => {
+    const dates = await Dates.find({})
+    res.status(200).json({success: true, data: dates }) 
 }
+)
 
 const createDate = async (req, res) => {
     try {

@@ -1,10 +1,12 @@
-const port = process.env.PORT || 8000
+ const port = process.env.PORT || 8000
 const connectDB = require('./db/connect')
 require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
 app.use(cors())
+const notFound = require('./middleware/not-found')
+
 
 const bookings = require('./Routes/bookings-routes')
 const dates = require('./Routes/fullmoonDates-routes')
@@ -19,6 +21,8 @@ app.use(express.json())
 
 app.use('/api/dates', dates)
 app.use('/api/bookings', bookings)
+
+app.use(notFound)
 
 
 const start = async () => {

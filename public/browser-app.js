@@ -14,11 +14,11 @@ const loadingDOM = document.querySelector(".loading-text")
 const loadPROG_Types = document.getElementById("loadPROG-Types")
 const loadPROG_Nights = document.getElementById("loadPROG-Nights")
 
-function tableHeaders() {
+function tableHeaders(max) {
     result.innerHTML = ""
     hotelDisplay.innerHTML = ""
     const mainHeaders = [".N.", ".P.", "R type", "H left", "Link"]
-    for (let n = 1; n < 26; n++) {
+    for (let n = 1; n < max+1; n++) {
         mainHeaders.push(n)
     }
     const mainTable = document.createElement("table")
@@ -26,10 +26,12 @@ function tableHeaders() {
     // ** date cell **
     const mainDateRow = document.createElement("tr")
     const fmDate = document.createElement("th")
-    fmDate.colSpan = "30"
+
+    fmDate.colSpan = `${max+5}`
     fmDate.style.background = "#f763e3"
     fmDate.style.padding = "10px"
     fmDate.style.fontSize = "1.3rem"
+    fmDate.style.textAlign = "left"
     mainDateRow.appendChild(fmDate)
     mainTable.appendChild(mainDateRow)
     // *** end of date cell ******
@@ -74,11 +76,11 @@ const myFunction = async (id) => {
     try {
         // function calling axios get method puppeteer-start-fn that gets hotels data
         const flatHotelsArray = await axiosCall(4, id)
+        let maxProp = 15
 
         function createTable(property = { title: "n/a" }) {
             const uniqueHotels = []
-
-            const { mainTable, fmDate } = tableHeaders()
+            const { mainTable, fmDate } = tableHeaders(maxProp)
             const searchDate = `Date:  ${flatHotelsArray[0][0].year} - ${flatHotelsArray[0][0].month} - ${flatHotelsArray[0][0].day}`
             fmDate.innerHTML = searchDate
 
@@ -132,6 +134,10 @@ const myFunction = async (id) => {
                     if (hotel.searchLink) {
                         mainTableDataCell.innerHTML = `<a target="_blank" href="${hotel.searchLink}">Link</a>`
                     }
+                    if(hotel.hotelsLeft && maxProp < hotel.hotelsLeft) {
+                        maxProp = hotel.hotelsLeft
+                        // createTable()
+                    }
 
                     if (property.title === hotel.title) {
                         mainTableDataCell.style.backgroundColor = "#ccf176"
@@ -143,8 +149,9 @@ const myFunction = async (id) => {
                 mainTable.appendChild(mainTableRow)
             }) // end of mapping nr1
             result.appendChild(mainTable)
-        }
 
+        }
+        
         createTable()
     } catch (error) {
         errorDiv.innerHTML = `<div class="alertalert-danger">Can't Fetch Data</div>`
