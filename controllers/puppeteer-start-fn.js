@@ -33,10 +33,13 @@ const start = async (dates, nights, private) => {
         let offset = 0     
 
         url = `https://www.booking.com/searchresults.html?ss=Haad+Rin&ssne=Haad+Rin&ssne_untouched=Haad+Rin&label=gen173nr-1FCAEoggI46AdIM1gEaIgBiAEBmAExuAEXyAEM2AEB6AEB-AECiAIBqAIDuAKMu-ORBsACAdICJGI0NmFkOTc0LWQ0MzEtNDM2Yi04MzBmLWE0NmJjOTQ2ZmQyZtgCBeACAQ&sid=d4e0e21c8c8f2fed3e94446ddf676a26&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&dest_id=900050772&dest_type=city&checkin=${checkInDate}&checkout=${checkOutDate}&group_adults=${j}&no_rooms=1&group_children=0&sb_travel_purpose=leisure&order=price&selected_currency=THB${privateQuery}&offset=${offset}`
+        // moved the link addition here so that the link in the table is from the first page
+        revHotels.unshift({ price: "Link", searchLink: url })
 
         await page.goto(url)
         const propLeft = await page.evaluate(() =>
-            document.querySelector("h1.e1f827110f.d3a14d00da").innerText.trim()
+            document.querySelector("h1.e1f827110f").innerText.trim()
+            // document.querySelector("h1.e1f827110f.d3a14d00da").innerText.trim()
         )
         const propertiesLeft = Number(propLeft.replace(/\D/g, ""))
         let propCounter = propertiesLeft
@@ -101,7 +104,7 @@ const start = async (dates, nights, private) => {
             }
 
         // next 4 lines of code is pure cheating. value pair names set as "price" so its possible to map full array into the table directly
-        revHotels.unshift({ price: "Link", searchLink: url })
+        
         revHotels.unshift({ price: propertiesLeft, hotelsLeft: propertiesLeft }) // properties left
         revHotels.unshift({ price: roomType }) // room tyme
         revHotels.unshift({ price: j }) // number of people

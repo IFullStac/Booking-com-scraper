@@ -1,20 +1,17 @@
 const Dates = require("../models/dates")
 const startFN = require("./puppeteer-start-fn")
+const asyncWrapper = require('../middleware/async')
+const {createCustomError} = require('../errors/custom-error')
 
-const getBookings = async (req, res) => {
-    try {
+
+const getBookings = asyncWrapper( async (req, res) => {
         const { id: dateID, nights, private } = req.params
         const dates = await Dates.findOne({ _id: dateID })
         if (!dates) {
-            return res
-                .status(404)
-                .json({ msg: `No date with id ${dateID} found` })
+            return next(createCustomError(`No date with id ${dateID} found`, 404))
         }
         const allHotels = await startFN(dates, nights, private)
         res.status(200).json({ success: true, data: allHotels })
-    } catch (error) {
-        res.status(500).json({ message: error })
-    }
-}
+})
 
 module.exports = { getBookings }

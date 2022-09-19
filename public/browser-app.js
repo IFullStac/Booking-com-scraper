@@ -46,14 +46,17 @@ function tableHeaders(max) {
 
 const axiosCall = async (nights, id) => {
     const HotelsArray = []
+    let searchesLeft = 8
+    loadPROG_Types.innerHTML = `Room types remaining: ${searchesLeft}`
     for (let i = 1; i < nights + 1; i++) {
         for (let p = 1; p < 3; p++) {
+            searchesLeft = searchesLeft - 1
             // room types 1 - any, 2 - private
             const { data } = await axios.get(`/api/bookings/${id}/${i}/${p}`)
             HotelsArray.push(data.data)
-            loadPROG_Types.innerHTML = `Room types searched: ${p}`
+            loadPROG_Types.innerHTML = `Room types remaining: ${searchesLeft}`
         }
-        loadPROG_Nights.innerHTML = `<div> Days searched ${i}</div>`
+        // loadPROG_Nights.innerHTML = `<div> Days searched ${i}</div>`
     }
     const flatHotelsArray = HotelsArray.flat()
     if (HotelsArray) {
@@ -108,14 +111,14 @@ const myFunction = async (id) => {
                             createTable(hotel)
                         })
 
-                        if (hotel.title.includes("OUT!")) {
-                            mainTableDataCell.style.backgroundColor = "#f763e3"
-                            mainTableDataCell.innerHTML = `<a target="_blank" href="${hotel.link}">${hotel.price}</a>`
-                        }
-                        if (hotel.title.includes("WET!")) {
-                            mainTableDataCell.style.backgroundColor = "#938dff"
-                            mainTableDataCell.innerHTML = `<a target="_blank" href="${hotel.link}">${hotel.price}</a>`
-                        }
+                        // if (hotel.title.includes("OUT!")) {
+                        //     mainTableDataCell.style.backgroundColor = "#f763e3"
+                        //     mainTableDataCell.innerHTML = `<a target="_blank" href="${hotel.link}">${hotel.price}</a>`
+                        // }
+                        // if (hotel.title.includes("WET!")) {
+                        //     mainTableDataCell.style.backgroundColor = "#938dff"
+                        //     mainTableDataCell.innerHTML = `<a target="_blank" href="${hotel.link}">${hotel.price}</a>`
+                        // }
                         if (!uniqueHotels.includes(hotel.title)) {
                             uniqueHotels.push(hotel.title)
                             const newHotel = document.createElement("div")

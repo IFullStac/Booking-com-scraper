@@ -1,11 +1,15 @@
  const port = process.env.PORT || 8000
 const connectDB = require('./db/connect')
 require('dotenv').config()
+require('express-async-errors')
 const express = require('express')
 const app = express()
 const cors = require('cors')
 app.use(cors())
+
+const mainRouter = require('./Routes/main')
 const notFound = require('./middleware/not-found')
+const errorHandlerMiddleware = require('./middleware/error-handler')
 
 
 const bookings = require('./Routes/bookings-routes')
@@ -22,8 +26,10 @@ app.use(express.json())
 app.use('/api/dates', dates)
 app.use('/api/bookings', bookings)
 
-app.use(notFound)
+app.use('/api', mainRouter)
 
+app.use(notFound)
+app.use(errorHandlerMiddleware)
 
 const start = async () => {
   try {
